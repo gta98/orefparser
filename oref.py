@@ -41,11 +41,12 @@ def check_warning():
     resp = requests.get(url, headers=headers)
     headers["If-Modified-Since"] = time.strftime("%a, %d %b %Y %H:%M:%S GMT", time.gmtime())
     if len(resp.text)==0: return None # no alert. hurray!
+    print(resp.text)
     resp = resp.text
     resp = resp.replace("\n","").replace("\t","")
     resp = json.loads(resp)
     headers["Cookie"] = "pakar_last_warning_id="+str(resp['id'])
-    return (headers["data"], headers["title"]) # locations, hebrew title tuple
+    return (resp["data"], resp["title"]) # locations, hebrew title tuple
 
 
 while True:
