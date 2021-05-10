@@ -20,7 +20,6 @@ headers["Accept-Language"] = "en-US,en;q=0.9"
 headers["If-Modified-Since"] = "Mon, 10 May 2021 16:00:00 GMT"
 
 
-def check_warning():
 '''
 returns either null or:
 {
@@ -28,11 +27,21 @@ returns either null or:
     "id": 1620662353520,
     "title": "התרעות פיקוד העורף"
 }
+{
+    "data": [
+        "זיקים",
+        "יד מרדכי",
+        "נתיב העשרה"
+    ],
+    "id": 1620667240202,
+    "title": "התרעות פיקוד העורף"
+}
 '''
+def check_warning():
     resp = requests.get(url, headers=headers)
     headers["If-Modified-Since"] = time.strftime("%a, %d %b %Y %H:%M:%S GMT", time.gmtime())
     if len(resp.text)==0: return None # no alert. hurray!
-    print(resp.text)
+    resp = resp.text
     resp = resp.replace("\n","").replace("\t","")
     resp = json.loads(resp)
     headers["Cookie"] = "pakar_last_warning_id="+str(resp['id'])
